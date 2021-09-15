@@ -1,7 +1,10 @@
+import "reflect-metadata";
 import express, { Application, Request, Response } from "express";
-import Router from "./routes";
+import { createConnection } from "typeorm";
 import swaggerUi from "swagger-ui-express";
 import morgan from "morgan";
+import Router from "./routes";
+import dbConfig from "./config/database";
 
 const PORT = process.env.PORT || 8000;
 
@@ -21,6 +24,13 @@ app.use(
 );
 app.use(Router);
 
-app.listen(PORT, () => {
-  console.log("Running on", PORT);
-});
+createConnection(dbConfig)
+  .then((_connection) => {
+    app.listen(PORT, () => {
+      console.log("Server is running on", PORT);
+    });
+  })
+  .catch((err) => {
+    console.log("Error", err);
+    process.exit(1);
+  });

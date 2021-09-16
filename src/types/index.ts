@@ -7,3 +7,14 @@ export interface IUserPayload {
   lastName: string;
   email: string;
 }
+
+export interface IPostPayload {
+  title: string;
+  content: string;
+  userId: number;
+}
+export interface ICommentPayload {
+  title: string;
+  content: string;
+  userId: number;
+}
